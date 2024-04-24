@@ -3,11 +3,80 @@ import numpy as np
 #from googlesearch import search
 
 
-def convert_ft_to_meters(dataset, *parameters):
+def convert_weight_to_lbs(dataset, *parameters, kg=False, grams=False):
+    """
+    Convert weight from kg to lbs
+    Args:
+        dataset: pd.DataFrame
+        parameters: list of columns to convert 
+        kg: if True, converts from kg to lbs
+        grams: if True, converts from grams to lbs
+    Returns:
+        dataset: pd.DataFrame
+    """
+
     for param in parameters:
-        dataset[param] = dataset[param].apply(pd.to_numeric, errors='coerce')  
-        dataset[param] = dataset[param].apply(lambda x: x * 0.3048)  # Convert feet to meters
+        dataset[param] = dataset[param].apply(pd.to_numeric, errors='coerce')
+        # Convert kg to lbs
+        if kg:
+            dataset[param] = dataset[param].apply(lambda x: x * 2.20462)
+        
+        # Convert grams to lbs
+        if grams:
+            dataset[param] = dataset[param].apply(lambda x: x * 0.00220462)
+    
     return dataset
+
+
+
+def convert_length_to_ft(dataset, *parameters, meters=False, cm=False):
+    """
+    Convert length from meters to feet
+    Args:
+        dataset: pd.DataFrame
+        parameters: list of columns to convert 
+    Returns:
+        dataset: pd.DataFrame
+    """
+    for param in parameters:
+        dataset[param] = dataset[param].apply(pd.to_numeric, errors='coerce')
+        # Convert meters to feet
+        if meters:
+            dataset[param] = dataset[param].apply(lambda x: x * 3.28084)
+        
+        # Convert cm to feet
+        if cm:
+            dataset[param] = dataset[param].apply(lambda x: x * 0.0328084)
+    
+    return dataset
+
+
+def convert_loading(dataset, *parameters, kg_m2=False, lbs_ft2=False):
+    """
+    Convert loading parameters between kilograms per square meter (kg/m^2) and pounds per square foot (lbs/ft^2).
+    
+    Args:
+        dataset: pd.DataFrame
+        parameters: list of columns to convert
+        kg_m2: True if the parameters are in kg/m^2 and need to be converted to lbs/ft^2, False otherwise
+        lbs_ft2: True if the parameters are in lbs/ft^2 and need to be converted to kg/m^2, False otherwise
+        
+    Returns:
+        dataset: pd.DataFrame
+    """
+    for param in parameters:
+        dataset[param] = dataset[param].apply(pd.to_numeric, errors='coerce')
+        
+        # Convert kg/m^2 to lbs/ft^2
+        if kg_m2:
+            dataset[param] = dataset[param].apply(lambda x: x * 23.730)
+        
+        # Convert lbs/ft^2 to kg/m^2
+        if lbs_ft2:
+            dataset[param] = dataset[param].apply(lambda x: x * 0.0421)
+    
+    return dataset
+
 
 
 def aircraft_name(dataset, column_name):
