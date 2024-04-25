@@ -113,6 +113,48 @@ def aircraft_name(dataset, column_name):
     return dataset
 
 
+def change_col_datatypes(dataframe, mapping_dict):
+    """
+    Change the datatype of columns in a dataframe based on the mapping dictionary provided.
+    Args:
+        dataframe: pd.DataFrame
+        mapping_dict: dict, mapping of column names to their respective datatypes
+    Returns:
+        dataframe: pd.DataFrame
+    """
+    cols_not_converted = []
+    
+    for col in dataframe.columns:
+        if col in mapping_dict:
+            
+            try:
+                dataframe[col] = dataframe[col].astype(mapping_dict[col])
+            except Exception as e:
+                print(f"Error converting column '{col}' to {mapping_dict[col]}:", e)
+                # Replace "-" with NaN values
+                dataframe[col] = dataframe[col].replace("-", np.nan)
+
+               # Try converting to numeric with errors='coerce' 
+                try:
+                    dataframe[col] = dataframe[col].astype(mapping_dict[col])
+                except Exception as e:
+                    print(f"Error converting column '{col}' to {mapping_dict[col]} after replacing '-':", e)
+                    dataframe[col] = pd.to_numeric(dataframe[col], errors='coerce')
+                    
+                    try:
+                        dataframe[col] = dataframe[col].astype(mapping_dict[col])
+                    except Exception as e:
+                        print(f"Error converting column '{col}' to {mapping_dict[col]} after replacing '-' with NaN and converting to numeric:", e)
+                        cols_not_converted.append(col)
+        else:
+            print(f"No datatype specified for column '{col}', skipping conversion")
+            cols_not_converted.append(col)
+
+    print("Columns not converted:", cols_not_converted)
+    return dataframe
+
+
+
 if __name__ == '__main__':
     dataset = pd.read_csv('Datasets/Aircraft Performance (Aircraft Bluebook)/Airplane_Cleaned.csv')
     #print(get_actual_company_names(dataset, 'Company'))
