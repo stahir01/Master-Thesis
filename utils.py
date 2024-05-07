@@ -138,13 +138,13 @@ def change_col_datatypes(dataframe, mapping_dict):
                 try:
                     dataframe[col] = dataframe[col].astype(mapping_dict[col])
                 except Exception as e:
-                    print(f"Error converting column '{col}' to {mapping_dict[col]} after replacing '-':", e)
+                    #print(f"Error converting column '{col}' to {mapping_dict[col]} after replacing '-':", e)
                     dataframe[col] = pd.to_numeric(dataframe[col], errors='coerce')
                     
                     try:
                         dataframe[col] = dataframe[col].astype(mapping_dict[col])
                     except Exception as e:
-                        print(f"Error converting column '{col}' to {mapping_dict[col]} after replacing '-' with NaN and converting to numeric:", e)
+                        #print(f"Error converting column '{col}' to {mapping_dict[col]} after replacing '-' with NaN and converting to numeric:", e)
                         cols_not_converted.append(col)
         else:
             print(f"No datatype specified for column '{col}', skipping conversion")
