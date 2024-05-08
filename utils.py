@@ -3,63 +3,66 @@ import numpy as np
 #from googlesearch import search
 
 
-def convert_weight_to_lbs(dataset, *parameters, kg=False, grams=False):
+def convert_weight_to_kg(dataset, *parameters, lbs=False, grams=False):
     """
-    Convert weight from kg to lbs
+    Convert weight to kg
     Args:
         dataset: pd.DataFrame
         parameters: list of columns to convert 
-        kg: if True, converts from kg to lbs
-        grams: if True, converts from grams to lbs
+        lbs: if True, converts from lbs to kg
+        grams: if True, converts from grams to kg
     Returns:
         dataset: pd.DataFrame
     """
 
     for param in parameters:
         dataset[param] = dataset[param].apply(pd.to_numeric, errors='coerce')
-        # Convert kg to lbs
-        if kg:
-            dataset[param] = dataset[param].apply(lambda x: x * 2.20462)
+        # Convert lbs to kg
+        if lbs:
+            dataset[param] = dataset[param].apply(lambda x: x * 0.453592)
         
-        # Convert grams to lbs
+        # Convert grams to kg
         if grams:
-            dataset[param] = dataset[param].apply(lambda x: x * 0.00220462)
+            dataset[param] = dataset[param].apply(lambda x: x * 0.001)
     
     return dataset
 
 
 
-def convert_length_to_ft(dataset, *parameters, meters=False, cm=False):
+def convert_length_to_meters(dataset, *parameters, ft=False, cm=False):
     """
-    Convert length from meters to feet
+    Convert length from feet or centimeters to meters
     Args:
         dataset: pd.DataFrame
         parameters: list of columns to convert 
+        ft: if True, converts from feet to meters
+        cm: if True, converts from centimeters to meters
     Returns:
         dataset: pd.DataFrame
     """
     for param in parameters:
         dataset[param] = dataset[param].apply(pd.to_numeric, errors='coerce')
-        # Convert meters to feet
-        if meters:
-            dataset[param] = dataset[param].apply(lambda x: x * 3.28084)
+        # Convert feet to meters
+        if ft:
+            dataset[param] = dataset[param].apply(lambda x: x * 0.3048)
         
-        # Convert cm to feet
+        # Convert cm to meters
         if cm:
-            dataset[param] = dataset[param].apply(lambda x: x * 0.0328084)
+            dataset[param] = dataset[param].apply(lambda x: x * 0.01)
     
     return dataset
+
 
 
 def convert_loading(dataset, *parameters, kg_m2=False, lbs_ft2=False):
     """
-    Convert loading parameters between kilograms per square meter (kg/m^2) and pounds per square foot (lbs/ft^2).
+    Convert loading parameters to newtons per square meter (N/m^2).
     
     Args:
         dataset: pd.DataFrame
         parameters: list of columns to convert
-        kg_m2: True if the parameters are in kg/m^2 and need to be converted to lbs/ft^2, False otherwise
-        lbs_ft2: True if the parameters are in lbs/ft^2 and need to be converted to kg/m^2, False otherwise
+        kg_m2: True if the parameters are in kg/m^2
+        lbs_ft2: True if the parameters are in lbs/ft^2
         
     Returns:
         dataset: pd.DataFrame
@@ -67,13 +70,13 @@ def convert_loading(dataset, *parameters, kg_m2=False, lbs_ft2=False):
     for param in parameters:
         dataset[param] = dataset[param].apply(pd.to_numeric, errors='coerce')
         
-        # Convert kg/m^2 to lbs/ft^2
+        # Convert kg/m^2 to N/m^2
         if kg_m2:
-            dataset[param] = dataset[param].apply(lambda x: x * 23.730)
+            dataset[param] = dataset[param].apply(lambda x: x * 9.80665)
         
-        # Convert lbs/ft^2 to kg/m^2
+        # Convert lbs/ft^2 to N/m^2
         if lbs_ft2:
-            dataset[param] = dataset[param].apply(lambda x: x * 0.0421)
+            dataset[param] = dataset[param].apply(lambda x: x * 47.8803)
     
     return dataset
 
