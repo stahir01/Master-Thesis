@@ -101,6 +101,49 @@ def convert_loading(dataset, *parameters, kg_m2=False, lbs_ft2=False):
     
     return dataset
 
+def convert_knots_to_mach(dataset, *parameters):
+    """
+    Convert speed from knots to Mach number.
+
+    Args:
+        dataset: pd.DataFrame
+        parameters: list of columns to convert
+    
+    Returns:
+        dataset: pd.DataFrame
+    """
+    for param in parameters:
+        dataset[param] = dataset[param].apply(pd.to_numeric, errors='coerce')
+        dataset[param] = dataset[param].apply(lambda x: x * 0.0015)
+
+    return dataset
+
+def convert_range(dataset, *parameters, nm=False, km=False):
+    """
+    Convert range from nautical miles to meters.
+    
+    Args:
+        dataset: pd.DataFrame
+        parameters: list of columns to convert
+        nm: True if the range is in nautical miles
+        km: True if the range is in kilometers
+        
+    Returns:
+        dataset: pd.DataFrame
+    """
+    for param in parameters:
+        dataset[param] = dataset[param].apply(pd.to_numeric, errors='coerce')
+        
+        # Convert nautical miles to meters
+        if nm:
+            dataset[param] = dataset[param].apply(lambda x: x * 1609.344)
+        
+        # Convert kilometers to meters
+        if km:
+            dataset[param] = dataset[param].apply(lambda x: x * 1000)
+    
+    return dataset
+
 
 
 def aircraft_name(dataset, column_name):
