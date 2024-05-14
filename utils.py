@@ -27,9 +27,27 @@ def convert_weight_to_kg(dataset, *parameters, lbs=False, grams=False):
     
     return dataset
 
+def convert_temp_to_celsius(dataset, *parameters, fahrenheit=False):
+    """
+    Convert temperature to Celsius
+    Args:
+        dataset: pd.DataFrame
+        parameters: list of columns to convert 
+        fahrenheit: if True, converts from fahrenheit to celsius
+    Returns:
+        dataset: pd.DataFrame
+    """
+    for param in parameters:
+        dataset[param] = dataset[param].apply(pd.to_numeric, errors='coerce')
+        # Convert fahrenheit to celsius
+        if fahrenheit:
+            dataset[param] = dataset[param].apply(lambda x: (x - 32) * 5/9)
+    
+    return dataset
 
 
-def convert_length_to_meters(dataset, *parameters, ft=False, cm=False):
+
+def convert_length_to_meters(dataset, *parameters, km = False, ft=False, cm=False):
     """
     Convert length from feet or centimeters to meters
     Args:
@@ -42,6 +60,11 @@ def convert_length_to_meters(dataset, *parameters, ft=False, cm=False):
     """
     for param in parameters:
         dataset[param] = dataset[param].apply(pd.to_numeric, errors='coerce')
+
+        # Convert km to meters
+        if km:
+            dataset[param] = dataset[param].apply(lambda x: x * 1000)
+
         # Convert feet to meters
         if ft:
             dataset[param] = dataset[param].apply(lambda x: x * 0.3048)
