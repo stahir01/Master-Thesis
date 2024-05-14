@@ -180,6 +180,21 @@ def aircraft_name(dataset, column_name):
     return dataset
 
 
+def preprocess_data(dataframe, columns_to_process):
+    """
+    Preprocess the specified columns in a dataframe.
+    Args:
+        dataframe: pd.DataFrame
+        columns_to_process: list of str, names of columns to preprocess
+    Returns:
+        dataframe: pd.DataFrame
+    """
+    for col in columns_to_process:
+        if dataframe[col].dtype == 'object':
+            dataframe[col] = dataframe[col].str.replace(',', '.')
+    return dataframe
+
+
 def change_col_datatypes(dataframe, mapping_dict):
     """
     Change the datatype of columns in a dataframe based on the mapping dictionary provided.
