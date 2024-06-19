@@ -1,0 +1,8 @@
+# Other common ignores
+__pycache__/
+*.py[cod]
+*.pyo
+*.log
+.env
+.DS_Store
+node_modules/
