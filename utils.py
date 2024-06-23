@@ -1,5 +1,13 @@
 import pandas as pd
 import numpy as np 
+from sklearn.model_selection import train_test_split, cross_val_score
+import seaborn as sns
+import matplotlib.pyplot as plt
+import tensorflow as tf
+from tensorflow import keras
+from sklearn.metrics import confusion_matrix, classification_report, accuracy_score, f1_score, precision_score, mean_absolute_error, mean_squared_error, r2_score, ConfusionMatrixDisplay
+from sklearn.preprocessing import StandardScaler
+
 #from googlesearch import search
 
 
@@ -257,6 +265,131 @@ def change_col_datatypes(dataframe, mapping_dict):
 
     print("Columns not converted:", cols_not_converted)
     return dataframe
+
+
+def plot_loss_metrics(model_results):
+    """
+    Plots the loss, Mean Absolute Error (MAE), and Root Mean Squared Error (RMSE) scores of a TensorFlow model.
+    Args:
+        model_results (object): The history object of the trained model.
+    
+    Returns:
+        None
+    """
+    train_loss = model_results.history['loss']
+    val_loss = model_results.history['val_loss']
+    train_mae = model_results.history['mean_absolute_error']
+    val_mae = model_results.history['val_mean_absolute_error']
+    train_rmse = model_results.history['root_mean_squared_error']
+    val_rmse = model_results.history['val_root_mean_squared_error']
+
+    epochs = range(1, len(train_loss) + 1)
+
+    # Create subplots with 1 row and 3 columns
+    fig, axs = plt.subplots(1, 3, figsize=(18, 6))
+
+    # Plot loss scores
+    axs[0].plot(epochs, train_loss, 'g', label='Training Loss')
+    axs[0].plot(epochs, val_loss, 'b', label='Validation Loss')
+    axs[0].set_title('Loss Scores')
+    axs[0].set_xlabel('Epochs')
+    axs[0].set_ylabel('Loss')
+    axs[0].legend()
+
+    # Plot MAE scores
+    axs[1].plot(epochs, train_mae, 'c', label='Training MAE')
+    axs[1].plot(epochs, val_mae, 'm', label='Validation MAE')
+    axs[1].set_title('MAE Scores')
+    axs[1].set_xlabel('Epochs')
+    axs[1].set_ylabel('Mean Absolute Error')
+    axs[1].legend()
+
+    # Plot RMSE scores
+    axs[2].plot(epochs, train_rmse, 'y', label='Training RMSE')
+    axs[2].plot(epochs, val_rmse, 'r', label='Validation RMSE')
+    axs[2].set_title('RMSE Scores')
+    axs[2].set_xlabel('Epochs')
+    axs[2].set_ylabel('Root Mean Squared Error')
+    axs[2].legend()
+
+    # Show the plots
+    plt.show()
+
+
+
+
+
+def prep_cnn_data(dataset, features, target, test_size, random_state):
+    """
+    Prepare data to train the CNN model.
+    Ards: 
+        dataset: pd.DataFrame -> dataset to train the model
+        features: pd.DataFrame -> features to train the model 
+        target: pd.DataFrame -> target variable
+        test_size: float -> size of the test set
+        random_state: int -> random state for reproducibility   
+    """
+    X = dataset[features]
+    y = dataset[target]
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=random_state)
+    print(f"Input training size: {X_train.shape}\n Input test size: {X_test.shape}\n Labels for training size: {y_train.shape}\n Labels for testing size: {y_test.shape}")
+
+    
+    X_train = X_train.to_numpy()
+    X_test = X_test.to_numpy() 
+    y_train = y_train.to_numpy().reshape(-1, 1) # Output: (191, 1)
+    y_test = y_test.to_numpy().reshape(-1, 1)
+
+    scaler = StandardScaler()
+    X_train_scaled = scaler.fit_transform(X_train)
+    X_test_scaled = scaler.transform(X_test)
+
+    y_scaler = StandardScaler()
+    y_train_scaled = y_scaler.fit_transform(y_train)
+    y_test_scaled = y_scaler.transform(y_test)
+
+
+    # Reshape the data for CNN
+    X_train_reshaped = X_train_scaled.reshape(X_train_scaled.shape[0], X_train_scaled.shape[1], 1)
+    X_test_reshaped = X_test_scaled.reshape(X_test_scaled.shape[0], X_test_scaled.shape[1], 1)
+
+    print(f'Reshaped training size: {X_train_reshaped.shape}\n Reshaped test size: {X_test_reshaped.shape}')
+
+    return X_train_reshaped, X_test_reshaped, y_train_scaled, y_test_scaled, y_scaler
+
+
+
+def evaluate_regression_model(y_test, y_pred):
+    """
+    Evaluates a regression model by plotting predicted vs actual values and printing regression metrics.
+    
+    Args:
+        y_test (array-like): The true test labels.
+        y_pred (array-like): The predicted labels.
+    
+    Returns:
+        None
+    """
+    # Calculate regression metrics
+    mae = mean_absolute_error(y_test, y_pred)
+    rmse = np.sqrt(mean_squared_error(y_test, y_pred))
+    r2 = r2_score(y_test, y_pred)
+    
+    # Print regression metrics
+    print(f"Mean Absolute Error (MAE): {mae:.4f}")
+    print(f"Root Mean Squared Error (RMSE): {rmse:.4f}")
+    print(f"R-squared (R2 ): {r2:.4f}")
+    
+    # Plot predicted vs actual values
+    plt.figure(figsize=(10, 6))
+    plt.scatter(y_test, y_pred, alpha=0.6)
+    plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'r--')
+    plt.xlabel('Actual Values')
+    plt.ylabel('Predicted Values')
+    plt.title('Predicted vs Actual Values')
+    plt.show()
+
 
 
 
