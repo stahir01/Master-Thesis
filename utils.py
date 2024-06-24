@@ -354,14 +354,14 @@ def prep_model_data(dataset, features, target, test_size, random_state, model_ty
     y_train_scaled = y_scaler.fit_transform(y_train)
     y_test_scaled = y_scaler.transform(y_test)
 
-    if model_type == 'cnn':
+    if model_type != 'cnn':
+        X_train_reshaped = X_train_scaled
+        X_test_reshaped = X_test_scaled
+    else:
         # Reshape the data for CNN
         X_train_reshaped = X_train_scaled.reshape(X_train_scaled.shape[0], X_train_scaled.shape[1], 1)
         X_test_reshaped = X_test_scaled.reshape(X_test_scaled.shape[0], X_test_scaled.shape[1], 1)
         print(f"Reshaped training size: {X_train_reshaped.shape}\nReshaped test size: {X_test_reshaped.shape}")
-    else:
-        X_train_reshaped = X_train_scaled
-        X_test_reshaped = X_test_scaled
 
     return X_train_reshaped, X_test_reshaped, y_train_scaled, y_test_scaled, x_scaler, y_scaler
 
