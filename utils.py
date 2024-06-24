@@ -319,15 +319,20 @@ def plot_loss_metrics(model_results):
 
 
 
-def prep_cnn_data(dataset, features, target, test_size, random_state):
+def prep_model_data(dataset, features, target, test_size, random_state, model_type='cnn'):
     """
-    Prepare data to train the CNN model.
-    Ards: 
-        dataset: pd.DataFrame -> dataset to train the model
-        features: pd.DataFrame -> features to train the model 
-        target: pd.DataFrame -> target variable
-        test_size: float -> size of the test set
-        random_state: int -> random state for reproducibility   
+    Prepare data to train the model.
+    
+    Args:
+        dataset (pd.DataFrame): Dataset to train the model
+        features (list): List of feature columns to train the model
+        target (str): Target variable column
+        test_size (float): Size of the test set
+        random_state (int): Random state for reproducibility
+        model_type (str): Type of model to train ('cnn' for CNN, 'ml' for traditional ML)
+    
+    Returns:
+        tuple: Processed training and test data, and scalers
     """
     X = dataset[features]
     y = dataset[target]
@@ -341,24 +346,24 @@ def prep_cnn_data(dataset, features, target, test_size, random_state):
     y_train = y_train.to_numpy().reshape(-1, 1) # Output: (191, 1)
     y_test = y_test.to_numpy().reshape(-1, 1)
 
-    scaler = StandardScaler()
-    X_train_scaled = scaler.fit_transform(X_train)
-    X_test_scaled = scaler.transform(X_test)
+    x_scaler = StandardScaler()
+    X_train_scaled = x_scaler.fit_transform(X_train)
+    X_test_scaled = x_scaler.transform(X_test)
 
     y_scaler = StandardScaler()
     y_train_scaled = y_scaler.fit_transform(y_train)
     y_test_scaled = y_scaler.transform(y_test)
 
+    if model_type == 'cnn':
+        # Reshape the data for CNN
+        X_train_reshaped = X_train_scaled.reshape(X_train_scaled.shape[0], X_train_scaled.shape[1], 1)
+        X_test_reshaped = X_test_scaled.reshape(X_test_scaled.shape[0], X_test_scaled.shape[1], 1)
+        print(f"Reshaped training size: {X_train_reshaped.shape}\nReshaped test size: {X_test_reshaped.shape}")
+    else:
+        X_train_reshaped = X_train_scaled
+        X_test_reshaped = X_test_scaled
 
-    # Reshape the data for CNN
-    X_train_reshaped = X_train_scaled.reshape(X_train_scaled.shape[0], X_train_scaled.shape[1], 1)
-    X_test_reshaped = X_test_scaled.reshape(X_test_scaled.shape[0], X_test_scaled.shape[1], 1)
-
-    print(f'Reshaped training size: {X_train_reshaped.shape}\n Reshaped test size: {X_test_reshaped.shape}')
-
-    return X_train_reshaped, X_test_reshaped, y_train_scaled, y_test_scaled, y_scaler
-
-
+    return X_train_reshaped, X_test_reshaped, y_train_scaled, y_test_scaled, x_scaler, y_scaler
 
 def evaluate_regression_model(y_test, y_pred):
     """
