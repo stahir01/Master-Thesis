@@ -50,3 +50,31 @@ def prep_model_data(dataset, features, target, test_size, random_state, model_ty
         print(f"Reshaped training size: {X_train_reshaped.shape}\nReshaped test size: {X_test_reshaped.shape}")
 
     return X_train_reshaped, X_test_reshaped, y_train_scaled, y_test_scaled, x_scaler, y_scaler
+
+
+
+def prep_prediction_data(dataset, features, model_type='cnn'):
+    """
+    Prepare dataset for model prediction
+
+    Args:
+        data (pd.DataFrame): Data to predict
+        features (list): List of feature columns to predict
+        model_type (str): Type of model to train ('cnn' for CNN, 'ml' for traditional ML)
+    
+    Returns:
+        X_scaled (np.array): Processed data for prediction
+        x_scaler (StandardScaler): Scaler used to scale the data
+    """
+
+    X = dataset[features]
+
+    X = X.to_numpy()
+
+    x_scaler = StandardScaler()
+    X_scaled = x_scaler.fit_transform(X)
+
+    if model_type == 'cnn':
+        X_scaled = X_scaled.reshape(X_scaled.shape[0], X_scaled.shape[1], 1)
+
+    return X_scaled, x_scaler
