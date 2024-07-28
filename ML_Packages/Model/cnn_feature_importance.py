@@ -52,6 +52,18 @@ class CNNFeatureImportance:
 
         shap.summary_plot(self.shap_values_reshaped, self.X_test, feature_names=self.features, plot_type="bar", color='maroon')
 
+    def plot_summary_for_all(self):
+        """
+        Plot the summary plot for feature importance for all instances.
+        """
+        # Reshape shap_values to be compatible with the summary_plot
+        shap_values_reshaped = [sv.reshape(-1, self.X_test.shape[1]) for sv in self.shap_values]
+
+        # Combine all SHAP values into a single array
+        combined_shap_values = np.concatenate(shap_values_reshaped, axis=0)
+
+        shap.summary_plot(combined_shap_values, self.X_test, feature_names=self.features, plot_type="bar", color='maroon')
+
     def plot_force(self):
         """
         Plot the force plot for a specific instance.
