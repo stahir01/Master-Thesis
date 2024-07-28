@@ -72,3 +72,48 @@ class CNNFeatureImportance:
         """
         shap.waterfall_plot(
         shap.Explanation(values=self.instance_shap_values,  base_values=self.expected_value,  data=self.X_test[self.index], feature_names=self.features))
+
+    def waterfall_plot_all(self):
+        """
+        Plot the waterfall plot for all test instances individually.
+
+        Args:
+            None
+        
+        Returns:
+            None
+        """
+        for i in range(len(self.X_test)):
+            instance_shap_values = self.shap_values[i].reshape(-1)
+            shap.waterfall_plot(
+                shap.Explanation(values=instance_shap_values, base_values=self.expected_value, data=self.X_test[i], feature_names=self.features)
+            )
+
+    def decision_plot(self):
+        """
+        Plot the decision plot for a specific instance.
+
+        Args:
+            None
+        
+        Returns:
+            None
+        """
+        shap.decision_plot(self.expected_value, self.instance_shap_values, feature_names=self.features, highlight=0)
+
+    def decision_plot_all(self):
+        """
+        Plot the decision plot for all test instances in a grid.
+
+        Args:
+            plots_per_row (int): Number of plots per row in the grid.
+        
+        Returns:
+            None
+        """
+        for i in range(len(self.X_test)):
+            instance_shap_values = self.shap_values[i].reshape(-1)
+            shap.decision_plot(
+                self.expected_value, instance_shap_values, feature_names=self.features,
+                highlight=0, show=False
+            )
