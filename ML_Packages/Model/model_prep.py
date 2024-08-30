@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import MinMaxScaler
 
 
 
@@ -32,11 +32,11 @@ def prep_model_data(dataset, features, target, test_size, random_state, model_ty
     y_train = y_train.to_numpy().reshape(-1, 1) # Output: (191, 1)
     y_test = y_test.to_numpy().reshape(-1, 1)
 
-    x_scaler = StandardScaler()
+    x_scaler = MinMaxScaler()
     X_train_scaled = x_scaler.fit_transform(X_train)
     X_test_scaled = x_scaler.transform(X_test)
 
-    y_scaler = StandardScaler()
+    y_scaler = MinMaxScaler()
     y_train_scaled = y_scaler.fit_transform(y_train)
     y_test_scaled = y_scaler.transform(y_test)
 
@@ -71,7 +71,7 @@ def prep_prediction_data(dataset, features, model_type='cnn'):
 
     X = X.to_numpy()
 
-    x_scaler = StandardScaler()
+    x_scaler = MinMaxScaler()
     X_scaled = x_scaler.fit_transform(X)
 
     if model_type == 'cnn':
