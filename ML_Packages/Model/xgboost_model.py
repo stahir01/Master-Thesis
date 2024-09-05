@@ -51,6 +51,8 @@ class XGboostModel():
         self.model = XGBRegressor(n_estimators=n_estimators, learning_rate=learning_rate, max_depth=max_depth, subsample=subsample, colsample_bytree=colsample_bytree, random_state=random_state)
         self.model.fit(self.X_train, self.y_train, verbose=True)
 
+        return self.model
+
     def model_predict(self):
         """
         Model predictions on the test set
@@ -83,21 +85,13 @@ class XGboostModel():
         """
         Calculate overall model confidence and confidence for each prediction
         """
-
-        print(f'Calculating Normzlied Model Confidence...')
+        #Normalized Confidence Score
         confidence_dataframe_normalized, avg_confidence_normalized = evaluate_model_confidence(self.y_test, self.y_pred)
-        print(f'Average Model Confidence: {avg_confidence_normalized:.4f}')
-        print(f'--------------------------------- \n')
-        print(confidence_dataframe_normalized)
-
-        print(f'\n')
-        print(f'\n')
-
-        print(f'Calculating Original Model Confidence...')
+        
+        #Original Confidence Score
         confidence_dataframe_orignal, avg_confidence_orignal = evaluate_model_confidence(self.y_test_original, self.y_pred_orignal)
-        print(f'Average Model Confidence: {avg_confidence_orignal:.4f}')
-        print(f'--------------------------------- \n')
-        print(confidence_dataframe_orignal)
+
+        return confidence_dataframe_normalized, avg_confidence_normalized, confidence_dataframe_orignal, avg_confidence_orignal
 
     
     def feature_importance(self, importance_type='total_gain'):
