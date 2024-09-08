@@ -37,8 +37,8 @@ This section presents the outcomes of the research, including:
 ## Next Steps
 As the research progresses, the following steps will be executed to further refine the model and extend the scope of the project:
 
-#### Task1: Update Thesis document. Add PCA background
-- Add the explanation in the thesis will provide context for how PCA helps reduce the feature space, while retaining most of the variance in the dataset. 
+#### Task1: Update Thesis document. Add PCA background (✅)
+- Add the explanation in the thesis will provide context for how PCA helps reduce the feature space, while retaining most of the variance in the dataset.  
 
 
 #### Task2 : Diversify the Dataset by Adding Regional, Short-Haul, and Turbo Prop Aircraft:
