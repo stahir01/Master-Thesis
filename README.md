@@ -41,10 +41,15 @@ As the research progresses, the following steps will be executed to further refi
 - Add the explanation in the thesis will provide context for how PCA helps reduce the feature space, while retaining most of the variance in the dataset.  
 
 
-#### Task2 : Diversify the Dataset by Adding Regional, Short-Haul, and Turbo Prop Aircraft:
+#### Task2 : Diversify the Dataset by Adding Regional, Short-Haul, and Turbo Prop Aircraft: (✅)
 - The current dataset includes aircraft with a variety of engine models, but most of the aircraft are powered by turbofan engines and turbojet engines, which are commonly used in commercial jets, large aircraft, and long-haul flights. These engines are known for their high performance in terms of speed, fuel efficiency, and thrust for larger aircraft.
 
 - To address this, it's important to diversify the dataset by including aircraft powered by different engine types, such as turboprop engines found in smaller, regional, and short-haul aircraft. Turboprops, like the PW127M or PW150A, offer better fuel efficiency for short distances and lower speeds, making them ideal for regional aviation and special operations like short takeoff and landing (STOL). Incorporating more aircraft with these types of engines would increase the dataset’s diversity and enhance the model’s ability to generalize predictions across a broader range of aircraft types and use cases.
+
+
+<p style="color: #44C837;">
+Solution: We already have 20 aircrafts which have turboprop engines. Finding more aircraft with all these values will be extremely difficult. For now, we will mark this part as done.
+</p>
 
 
 #### Task 3: Refine Input Parameters:
