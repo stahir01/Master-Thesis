@@ -52,13 +52,13 @@ Solution: We already have 20 aircrafts which have turboprop engines. Finding mor
 </p>
 
 
-#### Task 3: Refine Input Parameters:
+#### Task 3: Refine Input Parameters: (✅)
 
 - Focus on key parameters that have the most significant impact on predicting aircraft range. This involves removing less important features such as **Fuselage** **Length**, **Fuselage Width**, **Wing Taper Ratio**, **Wing Sweep**, and **Aspect Ratio**.
 Emphasize features like **Max Usable Fuel**, **Payload**, **V_MO**, and **ln(Initial Weight/Final Weight)**, **Max Takeoff Weight**, **Operating Empty Weight**, **Max Zero Fuel Weight**, **Wing Area**, for better model performance.
 
 
-#### Task 4: Perform Simulations and Sensitivity Analysis
+#### Task 4: Perform Simulations and Sensitivity Analysis (❌) -> Need simualtion data
 - Conduct simulations to evaluate the sensitivity of the model. In these simulations, keep most parameters constant and vary a few key features (e.g., payload or speed) to assess their impact on predicted range. This will validate the robustness of the model.
 
 
@@ -68,7 +68,7 @@ Emphasize features like **Max Usable Fuel**, **Payload**, **V_MO**, and **ln(Ini
 This will add a practical component to the research, allowing real-world applications such as optimizing payload or fuel based on a desired range.
 
 
-#### Task 6: Review Recorded Video
+#### Task 6: Review Recorded Video 
 
 
 #### Task 7: Work on Simualtion data:
