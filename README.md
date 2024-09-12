@@ -69,6 +69,3 @@ This will add a practical component to the research, allowing real-world applica
 
 
 #### Task 6: Review Recorded Video 
-
-
-#### Task 7: Work on Simualtion data:
