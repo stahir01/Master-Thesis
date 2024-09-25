@@ -37,35 +37,21 @@ This section presents the outcomes of the research, including:
 ## Next Steps
 As the research progresses, the following steps will be executed to further refine the model and extend the scope of the project:
 
-#### Task1: Update Thesis document. Add PCA background (✅)
-- Add the explanation in the thesis will provide context for how PCA helps reduce the feature space, while retaining most of the variance in the dataset.  
+#### Task1: Write detail about Reverse model (❌)
 
 
-#### Task2 : Diversify the Dataset by Adding Regional, Short-Haul, and Turbo Prop Aircraft: (✅)
-- The current dataset includes aircraft with a variety of engine models, but most of the aircraft are powered by turbofan engines and turbojet engines, which are commonly used in commercial jets, large aircraft, and long-haul flights. These engines are known for their high performance in terms of speed, fuel efficiency, and thrust for larger aircraft.
-
-- To address this, it's important to diversify the dataset by including aircraft powered by different engine types, such as turboprop engines found in smaller, regional, and short-haul aircraft. Turboprops, like the PW127M or PW150A, offer better fuel efficiency for short distances and lower speeds, making them ideal for regional aviation and special operations like short takeoff and landing (STOL). Incorporating more aircraft with these types of engines would increase the dataset’s diversity and enhance the model’s ability to generalize predictions across a broader range of aircraft types and use cases.
+#### Task2: Prediction of Range and Other Aircraft Parameters using Reverse Model (❌)
+- Implement a reverse prediction model that, given a target range and specific parameters like payload and V_MO, predicts missing aircraft parameters such as fuel capacity or total weight. This will allow for optimization based on desired range or operational conditions. 
 
 
-<p style="color: #44C837;">
-Solution: We already have 20 aircrafts which have turboprop engines. Finding more aircraft with all these values will be extremely difficult. For now, we will mark this part as done.
-</p>
+#### Task3 :Review and Adjust Parameter Selection for Different Aircraft Designs and Missions: (❌)
+- Reassess which parameters are necessary for different aircraft types, design requirements, and mission profiles. This includes verifying if different configurations are required for regional, long-haul, or special mission aircraft, and ensuring the model captures these nuances effectively. (Related to Task 4)
 
 
-#### Task 3: Refine Input Parameters: (✅)
+#### Task 4: Generate Simulation Data for Range Prediction and Model Training (❌) 
 
-- Focus on key parameters that have the most significant impact on predicting aircraft range. This involves removing less important features such as **Fuselage** **Length**, **Fuselage Width**, **Wing Taper Ratio**, **Wing Sweep**, and **Aspect Ratio**.
-Emphasize features like **Max Usable Fuel**, **Payload**, **V_MO**, and **ln(Initial Weight/Final Weight)**, **Max Takeoff Weight**, **Operating Empty Weight**, **Max Zero Fuel Weight**, **Wing Area**, for better model performance.
-
-
-#### Task 4: Perform Simulations and Sensitivity Analysis (❌) -> Need simualtion data
-- Conduct simulations to evaluate the sensitivity of the model. In these simulations, keep most parameters constant and vary a few key features (e.g., payload or speed) to assess their impact on predicted range. This will validate the robustness of the model.
+- Generate simulation data for aircraft ranges using various parameter configurations. Provide these configurations to the supervisor for validation and input. The next step involves using this simulation data to create more data points and train the model. Once trained, the model’s predictions will be tested by generating aircraft configurations, and tools will be used to verify if the predictions align with actual aircraft performance. This process ensures the robustness of the model and enhances its accuracy in predicting aircraft range and other key parameters.
 
 
-#### Task 5:  Implement Reverse Prediction:
-
-- Develop a reverse prediction approach where the model is provided with a target range and some known parameters (like payload and V_MO) to predict missing values such as fuel capacity or total aircraft weight.
-This will add a practical component to the research, allowing real-world applications such as optimizing payload or fuel based on a desired range.
-
-
-#### Task 6: Review Recorded Video 
+#### Task 5: Explore Retrofits and Alternative Configurations (❌)
+- Investigate how retrofits like the adoption of hydrogen fuel affect aircraft range and other parameters. For instance, analyze how a change in mass due to hydrogen fuel impacts the overall performance and range predictions. This task will focus on understanding the implications of new technologies on aircraft performance.
