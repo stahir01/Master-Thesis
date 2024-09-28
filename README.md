@@ -40,7 +40,7 @@ As the research progresses, the following steps will be executed to further refi
 #### Task1: Write detail about Reverse model (❌)
 
 
-#### Task2: Prediction of Range and Other Aircraft Parameters using Reverse Model (❌)
+#### Task2: Prediction of Range and Other Aircraft Parameters using Reverse Model (✅)
 - Implement a reverse prediction model that, given a target range and specific parameters like payload and V_MO, predicts missing aircraft parameters such as fuel capacity or total weight. This will allow for optimization based on desired range or operational conditions. 
 
 
