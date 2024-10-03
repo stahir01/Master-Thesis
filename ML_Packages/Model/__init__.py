@@ -4,3 +4,4 @@ from .model_evaluation import evaluate_regression_model, evaluate_model, evaluat
 from .model_prep import prep_model_data, prep_prediction_data
 from .model_create import PCAAnalysis
 from .xgboost_model import XGboostModel
+from .catgan_model_eval import GANModelEvaluation
